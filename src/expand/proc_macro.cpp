@@ -25,6 +25,10 @@
 
 #define NEWNODE(_ty, ...)   ::AST::ExprNodeP(new ::AST::ExprNode##_ty(__VA_ARGS__))
 
+#ifdef __DragonFly__
+extern char **environ;
+#endif
+
 class Decorator_ProcMacroDerive:
     public ExpandDecorator
 {

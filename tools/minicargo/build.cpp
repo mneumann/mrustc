@@ -24,9 +24,20 @@
 #ifdef _WIN32
 # define EXESUF ".exe"
 # define TARGET "x86_64-windows-msvc"
+#elif defined(__DragonFly__)
+# define EXESUF ""
+# define TARGET "x86_64-unknown-dragonfly"
+#elif defined(__FreeBSD__)
+# define EXESUF ""
+# define TARGET "x86_64-unknown-freebsd"
 #else
 # define EXESUF ""
 # define TARGET "x86_64-unknown-linux-gnu"
+#endif
+
+#if defined(__FreeBSD__) || defined(__DragonFly__)
+     #include <sys/types.h>
+     #include <sys/sysctl.h>
 #endif
 
 struct BuildList
@@ -331,6 +342,17 @@ Builder::Builder(BuildOptions opts):
     ::helpers::path minicargo_path { buf };
     minicargo_path.pop_component();
     m_compiler_path = minicargo_path / "mrustc.exe";
+#elif defined(__FreeBSD__) || defined(__DragonFly__)
+    // See https://github.com/rust-lang/rust/blob/master/src/libstd/sys/unix/os.rs#L199
+    size_t s = 1024;
+    char buf[1024];
+    int mib[4] = {CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1};
+    sysctl(mib, 4, buf, &s, NULL, NULL);
+    buf[s] = 0;
+
+    ::helpers::path minicargo_path { buf };
+    minicargo_path.pop_component();
+    m_compiler_path = (minicargo_path / "../../bin/mrustc").normalise();
 #else
     char buf[1024];
     size_t s = readlink("/proc/self/exe", buf, sizeof(buf)-1);

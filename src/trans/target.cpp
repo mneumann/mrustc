@@ -47,6 +47,13 @@ namespace
                 ARCH_X86_64
                 };
         }
+        else if(target_name == "x86_64-unknown-dragonfly")
+        {
+            return TargetSpec {
+                "unix", "dragonfly", "gnu", CodegenMode::Gnu11,
+                ARCH_X86_64
+                };
+        }
         else if(target_name == "x86_64-windows-gnu")
         {
             return TargetSpec {
@@ -97,7 +104,10 @@ void Target_SetCfg(const ::std::string& target_name)
     {
         Cfg_SetFlag("linux");
         Cfg_SetValue("target_vendor", "gnu");
+    } else {
+        Cfg_SetValue("target_vendor", "unknown");
     }
+
     Cfg_SetValue("target_env", g_target.m_env_name);
 
     Cfg_SetValue("target_os", g_target.m_os_name);

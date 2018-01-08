@@ -13,7 +13,8 @@ else
 endif
 
 LLVM_CONFIG := $(RUSTCSRC)build/bin/llvm-config
-RUSTC_TARGET := x86_64-unknown-linux-gnu
+RUSTC_TARGET ?= x86_64-unknown-linux-gnu
+#RUSTC_TARGET ?= x86_64-unknown-dragonfly
 OVERRIDE_DIR := script-overrides/$(RUSTC_CHANNEL)-$(RUSTC_VERSION)$(OVERRIDE_SUFFIX)/
 
 .PHONY: bin/mrustc tools/bin/minicargo

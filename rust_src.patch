@@ -24,3 +24,13 @@
 +        let rv = unsafe { ::intrinsics::mrustc_slice_len(self) };
 +        rv
      }
+--- src/llvm/cmake/modules/HandleLLVMOptions.cmake.orig	2017-06-27 11:37:39 UTC
++++ src/llvm/cmake/modules/HandleLLVMOptions.cmake
+@@ -110,6 +110,7 @@ if(NOT (${TARGET_TRIPLE} MATCHES "darwin
+         ${TARGET_TRIPLE} MATCHES "mingw" OR
+         ${TARGET_TRIPLE} MATCHES "freebsd" OR
+         ${TARGET_TRIPLE} MATCHES "netbsd" OR
++        ${TARGET_TRIPLE} MATCHES "dragonfly" OR
+         ${TARGET_TRIPLE} MATCHES "openbsd") AND
+    NOT LLVM_USE_SANITIZER)
+   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,defs")

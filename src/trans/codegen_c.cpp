@@ -1417,6 +1417,12 @@ namespace {
 
             auto type = params.monomorph(m_resolve, item.m_type);
             m_of << "extern ";
+#if defined(__DragonFly__)
+		    // XXX: This is a HACK until "#[thread_local] extern" is implemented
+		    if( item.m_linkage.name == "errno" ) {
+			    m_of << "__thread ";
+		    }
+#endif
             emit_ctype( type, FMT_CB(ss, ss << Trans_Mangle(p);) );
             if( item.m_linkage.name != "" && m_compiler == Compiler::Gcc)
             {

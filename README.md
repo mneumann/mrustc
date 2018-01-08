@@ -42,6 +42,11 @@ Windows
   - NOTE: I am open to suggestions for how to automate that step
 - Open `vsproject/mrustc.sln` and build minicargo
 
+DragonFly
+---------
+Same as Linux, but need to specify the target for minicargo.mk:
+
+    `env RUSTC_TARGET=x86_64-unknown-dragonfly gmake -f minicargo.mk`
 
 Diagnosing Issues and Reporting Bugs
 ====================================

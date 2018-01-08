@@ -38,6 +38,8 @@
 # else
 #define DEFAULT_TARGET_NAME "x86_64-windows-gnu"
 # endif
+#elif defined(__DragonFly__)
+#define DEFAULT_TARGET_NAME "x86_64-unknown-dragonfly"
 #else
 #define DEFAULT_TARGET_NAME "x86_64-linux-gnu"
 #endif
@@ -741,7 +743,7 @@ ProgramParams::ProgramParams(int argc, char *argv[])
                     exit(1);
                 }
 
-                auto name = ::std::string(desc, pos);
+                auto name = ::std::string(desc, (pos - desc));
                 auto path = ::std::string(pos+1);
                 this->crate_overrides.insert(::std::make_pair( mv$(name), mv$(path) ));
             }
